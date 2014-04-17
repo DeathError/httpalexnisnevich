@@ -16,15 +16,15 @@
  * you choose your mode of death. There, isn't that
  * nice?
  */
- 
+
 function startLevel(map) {
     map.displayChapter('Chapter 3\nBetrayal');
- 
+
     map.placePlayer(0, 0);
- 
+
     // yoink!
     map.getPlayer().removeItem('theAlgorithm');
- 
+
     map.defineObject('water', {
         'symbol': '-',
         'color': '#44f',
@@ -32,14 +32,14 @@ function startLevel(map) {
             player.killedBy(A);
         }
     });
- 
+
     for (var x = 0; x < map.getWidth(); x++)
         for (var y = 5; y < 15; y++)
             map.placeObject(x, y, 'water');
- 
-    map.placeObject(map.getWidth()-1, map.getHeight()-1, 'exit');
+
+    map.placeObject(map.getWidth() - 1, map.getHeight() - 1, 'exit');
 }
- 
+
 function validateLevel(map) {
     map.validateExactlyXManyObjects(1, 'exit');
 }

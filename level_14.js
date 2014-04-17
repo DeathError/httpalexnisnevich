@@ -11,7 +11,7 @@
  * You have the red, green, and blue keys. Now you
  * just need to figure out how to unlock this thing.
  */
- 
+
 function startLevel(map) {
     map.defineObject('redLock', {
         'symbol': String.fromCharCode(0x2297),
@@ -25,7 +25,7 @@ function startLevel(map) {
             }
         }
     });
- 
+
     map.defineObject('blueLock', {
         'symbol': String.fromCharCode(0x2297),
         'color': '#06f',
@@ -38,20 +38,21 @@ function startLevel(map) {
             }
         }
     });
- 
+
     map.defineObject('greenLock', {
         'symbol': String.fromCharCode(0x2297),
         'color': '#0f0',
         'impassable': function (player) {
             if (player.hasItem('greenKey')) {
-                player.removeItem('greenKey');map.placeObject(25,10,'greenKey');
+                player.removeItem('greenKey');
+                map.placeObject(25, 10, 'greenKey');
                 return false;
             } else {
                 return true;
             }
         }
     });
- 
+
     map.defineObject('yellowLock', {
         'symbol': String.fromCharCode(0x2297),
         'color': 'yellow',
@@ -64,41 +65,41 @@ function startLevel(map) {
             }
         }
     });
- 
+
     map.createFromGrid(
-       ['  +++++ +++++  ',
-        '  + b +++ r +  ',
-        '  +   +E+   +  ',
-        '+++G+B+ +R+G+++',
-        '+ y B     R b +',
-        '+   +     +   +',
-        '+++++  @  +++++',
-        '+   +     +   +',
-        '+ y R     B y +',
-        '++++++Y+Y++++++',
-        '    +  +  +    ',
-        '    + ABy +    ',
-        '    +++++++    '],
-    {
-        '@': 'player',
-        'E': 'exit',
-        'A': 'theAlgorithm',
-        '+': 'block',
-        'R': 'redLock',
-        'G': 'greenLock',
-        'B': 'blueLock',
-        'Y': 'yellowLock',
-        'r': 'redKey',
-        'g': 'greenKey',
-        'b': 'blueKey',
-        'y': 'yellowKey'
-    }, 17, 6);
+        ['  +++++ +++++  ',
+            '  + b +++ r +  ',
+            '  +   +E+   +  ',
+            '+++G+B+ +R+G+++',
+            '+ y B     R b +',
+            '+   +     +   +',
+            '+++++  @  +++++',
+            '+   +     +   +',
+            '+ y R     B y +',
+            '++++++Y+Y++++++',
+            '    +  +  +    ',
+            '    + ABy +    ',
+            '    +++++++    '],
+        {
+            '@': 'player',
+            'E': 'exit',
+            'A': 'theAlgorithm',
+            '+': 'block',
+            'R': 'redLock',
+            'G': 'greenLock',
+            'B': 'blueLock',
+            'Y': 'yellowLock',
+            'r': 'redKey',
+            'g': 'greenKey',
+            'b': 'blueKey',
+            'y': 'yellowKey'
+        }, 17, 6);
 }
- 
+
 function validateLevel(map) {
     map.validateExactlyXManyObjects(1, 'exit');
 }
- 
+
 function onExit(map) {
     // make sure we have all the items we need!
     if (!map.getPlayer().hasItem('theAlgorithm')) {

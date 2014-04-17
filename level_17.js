@@ -7,36 +7,36 @@
  * Well, no matter. Good luck getting through this
  * maze of rooms - you'll never see me or the Algorithm again!
  */
- 
+
 function startLevel(map) {
-    function shuffle(o){ //v1.0 [http://bit.ly/1l6LGQT]
-        for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
+    function shuffle(o) { //v1.0 [http://bit.ly/1l6LGQT]
+        for (var j, x, i = o.length; i; j = Math.floor(Math.random() * i),
             x = o[--i], o[i] = o[j], o[j] = x);
         return o;
     };
- 
+
     map.createFromGrid(
         ['+++++++++++++++++++++++++++++++++++++++++++++',
-         '++o *++++o *++++o *++++o *++++o *++++o *+++++',
-         '+* @ o++*   o++*   o++*   o++*   o++*   o++++',
-         '++o *++++o *++++o *++++o *++++o *++++o *+++++',
-         '+++++++++++++++++++++++++++++++++++++++++++++',
-         '+++++* o++++* o++++* o++++* o++++* o++++* o++',
-         '++++o   *++o   *++o   *++o   *++o   *++o   *+',
-         '+++++* o++++* o++++* o++++* o++++* o++++* o++',
-         '+++++++++++++++++++++++++++++++++++++++++++++',
-         '++o *++++o *++++o *++++o *++++o *++++o *+++++',
-         '+*   o++*   o++*   o++*   o++*   o++*   o++++',
-         '++o *++++o *++++o *++++o *++++o *++++o *+++++',
-         '+++++++++++++++++++++++++++++++++++++++++++++',
-         '+++++* o++++* o++++* o++++* o++++* o++++* o++',
-         '++++o   *++o   *++o   *++o   *++o   *++o   *+',
-         '+++++* o++++* o++++* o++++* o++++* o++++* o++',
-         '+++++++++++++++++++++++++++++++++++++++++++++',
-         '++o *++++o *++++o *++++o *++++o *++++o *+++++',
-         '+*   o++*   o++*   o++*   o++*   o++* E o++++',
-         '++o *++++o *++++o *++++o *++++o *++++o *+++++',
-         '+++++++++++++++++++++++++++++++++++++++++++++'],
+            '++o *++++o *++++o *++++o *++++o *++++o *+++++',
+            '+* @ o++*   o++*   o++*   o++*   o++*   o++++',
+            '++o *++++o *++++o *++++o *++++o *++++o *+++++',
+            '+++++++++++++++++++++++++++++++++++++++++++++',
+            '+++++* o++++* o++++* o++++* o++++* o++++* o++',
+            '++++o   *++o   *++o   *++o   *++o   *++o   *+',
+            '+++++* o++++* o++++* o++++* o++++* o++++* o++',
+            '+++++++++++++++++++++++++++++++++++++++++++++',
+            '++o *++++o *++++o *++++o *++++o *++++o *+++++',
+            '+*   o++*   o++*   o++*   o++*   o++*   o++++',
+            '++o *++++o *++++o *++++o *++++o *++++o *+++++',
+            '+++++++++++++++++++++++++++++++++++++++++++++',
+            '+++++* o++++* o++++* o++++* o++++* o++++* o++',
+            '++++o   *++o   *++o   *++o   *++o   *++o   *+',
+            '+++++* o++++* o++++* o++++* o++++* o++++* o++',
+            '+++++++++++++++++++++++++++++++++++++++++++++',
+            '++o *++++o *++++o *++++o *++++o *++++o *+++++',
+            '+*   o++*   o++*   o++*   o++*   o++* E o++++',
+            '++o *++++o *++++o *++++o *++++o *++++o *+++++',
+            '+++++++++++++++++++++++++++++++++++++++++++++'],
         {
             '@': 'player',
             'E': 'exit',
@@ -44,16 +44,16 @@ function startLevel(map) {
             'o': 'teleporter',
             '*': 'trap',
         }, 2, 2);
- 
+
     var canvas = map.getCanvasContext();
- 
+
     var teleportersAndTraps = map.getDynamicObjects();
     teleportersAndTraps = shuffle(teleportersAndTraps);
- 
-    for (i = 0; i < teleportersAndTraps.length; i+=2) {
+
+    for (i = 0; i < teleportersAndTraps.length; i += 2) {
         var t1 = teleportersAndTraps[i];
-        var t2 = teleportersAndTraps[i+1];
- 
+        var t2 = teleportersAndTraps[i + 1];
+
         // Point each teleporter to either another teleporter
         // or a trap
         if (t1.getType() == 'teleporter') {
@@ -62,41 +62,40 @@ function startLevel(map) {
         if (t2.getType() == 'teleporter') {
             t2.setTarget(t1);
         }
- 
+
         // TODO find a way to remove the API docs
         // wouldn't want the 'good doctor' to find
         // out about map.getCanvasCoords()...
     }
-    
-	canvas.xmax = 0;
+
+    canvas.xmax = 0;
     canvas.ymax = 0;
-	canvas.t1max = null;
-        
-        
-  	for (i = 0; i < teleportersAndTraps.length; i++) {
-	    var t1 = teleportersAndTraps[i];
+    canvas.t1max = null;
+
+
+    for (i = 0; i < teleportersAndTraps.length; i++) {
+        var t1 = teleportersAndTraps[i];
         if (t1.getType() == 'teleporter') {
-        	var t1coords = map.getCanvasCoords(t1);
+            var t1coords = map.getCanvasCoords(t1);
             if (t1coords.x >= canvas.xmax &&
-                t1coords.y >= canvas.ymax)
-            {
-            	canvas.xmax = t1coords.x;
+                t1coords.y >= canvas.ymax) {
+                canvas.xmax = t1coords.x;
                 canvas.ymax = t1coords.y;
                 canvas.t1max = t1;
                 console.log(canvas.xmax + ',' + canvas.ymax);
             }
-    	}
+        }
     }
-    
- 
+
+
     for (i = 0; i < teleportersAndTraps.length; i++) {
-    	var t1 = teleportersAndTraps[i];
+        var t1 = teleportersAndTraps[i];
         if (t1.getType() == 'teleporter' && t1 != canvas.t1max) {
             t1.setTarget(canvas.t1max);
         }
     }
 }
- 
+
 function validateLevel(map) {
     map.validateExactlyXManyObjects(1, 'exit');
 }
